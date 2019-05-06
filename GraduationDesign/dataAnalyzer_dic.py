@@ -3,11 +3,13 @@ from sklearn.externals import joblib
 from sqlalchemy import create_engine
 import pymysql
 from sys import argv
+import trainModel_dic
 
 if __name__ == '__main__':
+    # weiboId = '4365345747167719'
     weiboId = str(argv[1])
-    RF = joblib.load('D:/Desktop/Desktop/GraduationDesign/rf.model')   #加载模型
-    print('加载模型成功')
+    # RF = joblib.load('D:/Desktop/Desktop/GraduationDesign/rf.model')   #加载模型
+    # print('加载模型成功')
     # df_analyser = pd.DataFrame(columns=['comment', 'sentiment'])
     connect_info = 'mysql+pymysql://root:password@localhost:3306/textanalyser'
     sql_cmd = "SELECT id,comments from comment_info where weiboId="+weiboId
@@ -17,10 +19,15 @@ if __name__ == '__main__':
     idSet = df.id
 
     #使用机器学习方法进行训练
-    result_y = RF.predict(df.comments)
-    result_y = result_y.tolist()
+    # result_y = RF.predict(df.comments)
+    # result_y = result_y.tolist()
+    result_y = []
 
     #使用情感词典方法进行训练
+    for index, row in df.iterrows():
+        result = trainModel_dic.setiment_score(row.comments)
+        print(row.comments,result)
+        result_y.append(result)
 
 
     conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='password', db='textanalyser')

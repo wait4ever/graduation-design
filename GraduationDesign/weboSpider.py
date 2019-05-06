@@ -13,6 +13,7 @@ import pymysql
 from sqlalchemy import create_engine
 from sys import argv
 import json
+import datetime
 
 agent = 'mozilla/5.0 (windowS NT 10.0; win64; x64) appLewEbkit/537.36 (KHTML, likE gecko) chrome/71.0.3578.98 safari/537.36'
 headers = {'User-Agent': agent}
@@ -310,10 +311,19 @@ if __name__ == '__main__':
     cookie_path = "Cookie.txt"  # 保存cookie 的文件名称
     weibo = WeiboLogin(username, password, cookie_path)
     weibo.login()
-    # id='4364566043167955'
+    # id='4367977325433800'
     id = argv[1]
+    createdTime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     info = weibo_comment(id)
     if(info=="error"):
         print("微博ID错误，请重新输入！")
     else:
+        #存入数据
+        conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='password', db='textanalyser')
+        conn.autocommit(True)
+        cur = conn.cursor()
+        sql_insert = "insert into analyseresult values('"+id+"','no','"+createdTime+"')"
+        print(sql_insert)
+        cur.execute(sql_insert)
+
         print("微博信息爬取完成，请等待分析结果。")
