@@ -19,7 +19,6 @@ public class analyserController {
 
         //数据爬取
         String exe ="python";
-        // pyhon路径： C:/Users/lenovo-pc/AppData/Local/Programs/Python/Python36-32/python.exe
         String command = "D:/Desktop/Desktop/GraduationDesign/weboSpider.py";
         String[] cmdArr = new String[]{exe, command, weiboId};
         try {
@@ -41,17 +40,20 @@ public class analyserController {
             e.printStackTrace();
         }
 
-        String command2 = "D:/Desktop/Desktop/GraduationDesign/dataAnalyzer.py";
+        String command2 = "D:/Desktop/Desktop/GraduationDesign/trainModel_dic.py";
         String[] cmdArr2 = new String[]{exe, command2, weiboId};
         try {
+            System.out.println("正在对数据进行分析...");
             Process pr = Runtime.getRuntime().exec(cmdArr2);
             BufferedReader in = new BufferedReader(new InputStreamReader(
                     pr.getInputStream(),"gbk"));
             String line;
-//            System.out.println("正在对数据进行分析...");
+
+
             while ((line = in.readLine()) != null) {
                 System.out.println(line);
             }
+            System.out.println("数据分析完成");
             in.close();
             pr.waitFor();
         } catch (Exception e) {
