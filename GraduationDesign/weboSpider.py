@@ -306,8 +306,8 @@ def weibo_comment(id):
     # fp.close()
 
 if __name__ == '__main__':
-    username = "272451865@qq.com"  # 用户名
-    password = "ljmpeak0419"  # 密码
+    username = "xxxxx"  # 用户名
+    password = "xxxxx"  # 密码
     cookie_path = "Cookie.txt"  # 保存cookie 的文件名称
     weibo = WeiboLogin(username, password, cookie_path)
     weibo.login()
